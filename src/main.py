@@ -6,7 +6,7 @@ from keep_alive import keep_alive
 
 load_dotenv()
 
-GUILD_ID = 1446539319140679813
+GUILD_ID = 881250112549027880
 
 intents = discord.Intents.all()
 prefix = "/"
