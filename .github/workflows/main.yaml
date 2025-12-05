@@ -19,8 +19,3 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-      - name: Run Python script with secret
-        env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-        run: |
