@@ -11,7 +11,6 @@ GUILD_ID = 1446539319140679813
 intents = discord.Intents.all()
 prefix = "/"
 bot = commands.Bot(command_prefix=prefix, help_command=None, intents=intents)
-bot.author_id = 729290819151855698
 tree = bot.tree
 
 @bot.event
@@ -20,7 +19,7 @@ async def on_ready():
     print(bot.user)
     guild = discord.Object(id=GUILD_ID)
     await tree.sync(guild=guild)
-    activity = discord.Game(name="Made by Me88_88", type=1)
+    activity = discord.Game(name="Made by Me88_88")
     await bot.change_presence(status=discord.Status.online, activity=activity)
 
 @tree.command(name="ping", description="Replies with pong.")
