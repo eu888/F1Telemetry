@@ -9,11 +9,10 @@ load_dotenv()
 GUILD_ID = 1446539319140679813
 
 intents = discord.Intents.all()
-intents.members =
+intents.members = True
 bot = commands.Bot(command_prefix=prefix, help_command=None, intents=intents)
 bot.author_id = 729290819151855698
 tree = bot.tree
- True
 intents.message_content = True
 prefix = "/"
 @bot.event
