@@ -1,0 +1,1 @@
+BOT_SECRET="ktqSJgvdLgbplXJr609Dt2GZyqxeYuSZ"
