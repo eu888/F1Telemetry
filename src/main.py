@@ -12,6 +12,7 @@ intents.message_content = True
 prefix = "/"
 bot = commands.Bot(command_prefix=prefix, help_command=None, intents=intents)
 bot.author_id = 729290819151855698
+tree = bot.tree
 
 @bot.event
 async def on_ready():
@@ -20,7 +21,11 @@ async def on_ready():
     activity = discord.Game(name="Made by Me88_88", type=1)
     await bot.change_presence(status=discord.Status.online, activity=activity)
 
-@bot.command("server_info")
+@tree.command(name="ping",description="Replies with pong.")
+async def ping(interaction: discord.Interaction):
+    await interaction.response.send_message("Pong!")
+
+@tree.command(name="info_server", description="Information about server.")
 async def serverinfo(ctx):
     icon_url = guild.icon.url if guild.icon else None
     guild = ctx.guild
