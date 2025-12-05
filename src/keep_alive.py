@@ -9,7 +9,7 @@ def home():
     return "I'm alive!"
 
 def run():
-    port = 10000 
+    port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
 
 def keep_alive():
