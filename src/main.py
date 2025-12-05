@@ -7,6 +7,7 @@ load_dotenv()
 
 intents = discord.Intents.all()
 intents.members = True
+intents.message_content = True
 prefix = "/"
 bot = commands.Bot(command_prefix=prefix, help_command=None, intents=intents)
 bot.author_id = 729290819151855698
@@ -32,5 +33,5 @@ async def serverinfo(ctx):
     embed.add_field(name="Created At", value=guild.created_at.strftime("%Y-%m-%d %H:%M:%S"), inline=True)
     await ctx.send(embed=embed)
     
-bot_secret = os.getenv("BOT_SECRET")
+bot_secret = os.getenv("BOT_TOKEN")
 bot.run(bot_secret)

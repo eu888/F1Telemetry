@@ -21,3 +21,4 @@ jobs:
       - name: Run with .env
         env: 
           BOT_SECRET: ${{secrets.BOT_SECRET}}
+          BOT_TOKEN: ${{secrets.BOT_TOKEN}}
