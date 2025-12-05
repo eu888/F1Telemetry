@@ -1,4 +1,4 @@
-import os
+U import os
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
@@ -6,18 +6,22 @@ from keep_alive import keep_alive
 
 load_dotenv()
 
+GUILD_ID = 1446539319140679813
+
 intents = discord.Intents.all()
-intents.members = True
-intents.message_content = True
-prefix = "/"
+intents.members =
 bot = commands.Bot(command_prefix=prefix, help_command=None, intents=intents)
 bot.author_id = 729290819151855698
 tree = bot.tree
-
+ True
+intents.message_content = True
+prefix = "/"
 @bot.event
 async def on_ready():
     print("Online")
     print(bot.user)
+    guild = discord.Object(id=GUILD_ID)
+    await tree.sync(guild=guild)
     activity = discord.Game(name="Made by Me88_88", type=1)
     await bot.change_presence(status=discord.Status.online, activity=activity)
 
