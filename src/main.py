@@ -26,6 +26,7 @@ async def on_ready():
 async def ping(interaction: discord.Interaction):
     await interaction.response.send_message("Pong!")
 
+@tree.command(name="serverinfo", description="displays server info. ") 
 async def serverinfo(interaction: discord.Interaction):
 
     guild = interaction.guild
