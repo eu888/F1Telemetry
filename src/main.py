@@ -1,8 +1,11 @@
 import os
 import discord
+from discord import app_commands
 from discord.ext import commands
 from dotenv import load_dotenv
 from keep_alive import keep_alive
+from telemetry_loop import telemetry_loop, telemetry_cache
+import asyncio
 
 class Bot(commands.Bot):
     async def setup_hook(self):
@@ -31,6 +34,7 @@ async def on_ready():
         status=discord.Status.online, 
         activity=activity
     )
+    bot.loop.create_task(telemetry_loop())
 
 @tree.command(
     name="ping",
@@ -68,6 +72,29 @@ async def serverinfo(interaction: discord.Interaction):
 
     await interaction.response.send_message(embed=embed)
 
+@tree.command(name="f1", description="F1 telemetry command.")
+@app_commands.choices(type_=[
+    app_commands.Choice(name="Driver", value="driver"),
+    app_commands.Choice(name="Leaderboard", value="leaderboard")
+])
+async def f1(interaction: discord.Interaction, type_: app_commands.Choice[str], driver: str, race: str = None):
+    type_ = type_.value.lower()
+    driver = driver.upper()
+
+    if type_ == "driver":
+        if driver not in telemetry_cache["drivers"]:
+            return await interaction.response.send_message(
+                "Driver not found",
+                ephemeral=True
+            )
+
+        data = telemetry_cache["drivers"][driver]
+
+        await interaction.response.send_message(
+            f"🏎️ **{driver}**\n"
+            f"Laps: {data['laps']}\n"
+            f"Last lap: {data['last_lap']}"
+        )
     
 bot_secret = os.getenv("BOT_TOKEN")
 
