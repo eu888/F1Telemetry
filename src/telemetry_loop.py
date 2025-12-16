@@ -9,7 +9,7 @@ telemetry_cache = {
     "flags": {}
 }
 
-async def telemtry_loop():
+async def telemetry_loop():
     await asyncio.wait(5)
 
     while True:
