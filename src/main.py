@@ -1,6 +1,7 @@
 import os
 import discord
 from discord.ext import commands
+from discord.embeds import Embed
 from dotenv import load_dotenv
 from keep_alive import keep_alive
 
@@ -8,9 +9,13 @@ load_dotenv()
 
 GUILD_ID = 881250112549027880
 
-intents = discord.Intents.all()
+intents = discord.Intents.default()
+intents.members=True
 prefix = "/"
-bot = commands.Bot(command_prefix=prefix, help_command=None, intents=intents)
+bot = commands.Bot(
+    command_prefix=prefix, 
+    help_command=None, intents=intents
+)
 tree = bot.tree
 
 @bot.event
@@ -20,15 +25,26 @@ async def on_ready():
     guild = discord.Object(id=GUILD_ID)
     await tree.sync(guild=guild)
     activity = discord.Game(name="Made by Me88_88")
-    await bot.change_presence(status=discord.Status.online, activity=activity)
+    await bot.change_presence(
+        status=discord.Status.online, 
+        activity=activity
+    )
 
-@tree.command(name="ping", description="Replies with pong.")
+@tree.command(
+    name="ping",
+    description="Replies with pong.",
+    guild=discord.Object(id=GUILD_ID)
+)
 async def ping(interaction: discord.Interaction):
-    await interaction.response.send_message("Pong!")
+    await interaction.response.send_message("Pong!", ephemeral=True)
 
-@tree.command(name="serverinfo", description="displays server info. ") 
+
+@tree.command(
+    name="serverinfo",
+    description="Displays server info.",
+    guild=discord.Object(id=GUILD_ID)
+)
 async def serverinfo(interaction: discord.Interaction):
-
     guild = interaction.guild
 
     embed = discord.Embed(
@@ -41,11 +57,15 @@ async def serverinfo(interaction: discord.Interaction):
 
     embed.add_field(name="Server Name", value=guild.name)
     embed.add_field(name="Server ID", value=guild.id)
-    embed.add_field(name="Owner", value=guild.owner)
+    embed.add_field(name="Owner", value=guild.owner or "Unknown")
     embed.add_field(name="Member Count", value=guild.member_count)
-    embed.add_field(name="Created At", value=guild.created_at.strftime("%Y-%m-%d %H:%M:%S"))
+    embed.add_field(
+        name="Created At",
+        value=guild.created_at.strftime("%Y-%m-%d %H:%M:%S")
+    )
 
     await interaction.response.send_message(embed=embed)
+
     
 bot_secret = os.getenv("BOT_TOKEN")
 
