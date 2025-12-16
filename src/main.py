@@ -26,8 +26,6 @@ tree = bot.tree
 async def on_ready():
     print("Online")
     print(bot.user)
-    guild = discord.Object(id=GUILD_ID)
-    await tree.sync(guild=guild)
     activity = discord.Game(name="Made by Me88_88")
     await bot.change_presence(
         status=discord.Status.online, 
