@@ -1,9 +1,14 @@
 import os
 import discord
 from discord.ext import commands
-from discord.embeds import Embed
 from dotenv import load_dotenv
 from keep_alive import keep_alive
+
+class Bot(commands.Bot):
+    async def setup_hook(self):
+        guild = discord.Object(id=GUILD_ID)
+        self.tree.copy_global_to(guild=guild)
+        await self.tree.sync(guild=guild)
 
 load_dotenv()
 
@@ -12,10 +17,9 @@ GUILD_ID = 881250112549027880
 intents = discord.Intents.default()
 intents.members=True
 prefix = "/"
-bot = commands.Bot(
-    command_prefix=prefix, 
-    help_command=None, intents=intents
-)
+bot = Bot(command_prefix=prefix,
+    help_command=None,
+    intents=intents)
 tree = bot.tree
 
 @bot.event
