@@ -10,12 +10,12 @@ telemetry_cache = {
 }
 
 async def telemetry_loop():
-    await asyncio.wait(5)
+    await asyncio.sleep(5)
 
     while True:
         try:
             session = fastf1.get_session(2025, 'Monaco', 'R')
-            session.load()
+            session.load(laps=False, telemetry=False)
 
             telemetry_cache["session"] = session.session_info
             telemetry_cache["leaderboard"] = (
@@ -36,4 +36,4 @@ async def telemetry_loop():
         except Exception as e:
             print("Telemetry error: ", e)
 
-        await asyncio.wait(10)
+        await asyncio.sleep(10)

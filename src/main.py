@@ -81,6 +81,12 @@ async def f1(interaction: discord.Interaction, type_: app_commands.Choice[str], 
     type_ = type_.value.lower()
     driver = driver.upper()
 
+    if not telemetry_cache["session"]:
+        return await interaction.response.send_message(
+            "Telemetry data not available yet. Please try again later.",
+            ephemeral=True
+        )
+
     if type_ == "driver":
         if driver not in telemetry_cache["drivers"]:
             return await interaction.response.send_message(
