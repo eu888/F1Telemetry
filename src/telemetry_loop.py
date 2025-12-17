@@ -1,9 +1,13 @@
+import os
 import fastf1 as ff1
 import asyncio
 import pandas as pd
 from datetime import datetime, timezone
 
-ff1.Cache.enable_cache("ff1_cache")
+cache_dir = os.path.join(os.getcwd(), "cache", "ff1_cache")  
+os.makedirs(cache_dir, exist_ok=True)
+
+ff1.Cache.enable_cache(cache_dir)
 
 telemetry_cache = {
     "session": None,
