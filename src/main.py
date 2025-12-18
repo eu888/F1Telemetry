@@ -5,7 +5,6 @@ from discord.ext import commands
 from dotenv import load_dotenv
 from keep_alive import keep_alive
 from telemetry_loop import telemetry_loop, telemetry_cache
-import asyncio
 
 class Bot(commands.Bot):
     async def setup_hook(self):
@@ -34,7 +33,8 @@ async def on_ready():
         status=discord.Status.online, 
         activity=activity
     )
-    bot.loop.create_task(telemetry_loop())
+    if not hasattr(bot, "telemetry_task"):
+        bot.loop.create_task(telemetry_loop())
 
 @tree.command(
     name="ping",

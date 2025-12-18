@@ -7,6 +7,8 @@ from datetime import datetime, timezone
 cache_dir = os.path.join(os.getcwd(), "cache", "ff1_cache")  
 os.makedirs(cache_dir, exist_ok=True)
 
+current_session_key = None
+
 ff1.Cache.enable_cache(cache_dir)
 
 telemetry_cache = {
@@ -67,12 +69,21 @@ async def telemetry_loop():
                 await asyncio.sleep(300)
                 continue
 
-            session = ff1.get_session(
-                event["Year"], 
-                event["EventName"], 
-                session_type
-            )
-            session.load()
+            session_key = f"{event['EventName']}-{session_type}"
+            if session_key != current_session_key:
+                session = ff1.get_session(
+                    event["Year"],
+                    event["EventName"],
+                    session_type
+                )
+                session.load()
+                current_session_key = session_key
+            else:
+                session = ff1.get_session(
+                    event["Year"],
+                    event["EventName"],
+                    session_type
+                )
 
             telemetry_cache["session"] = {
                 "event": event,
@@ -106,4 +117,9 @@ async def telemetry_loop():
         except Exception as e:
             print("Telemetry error: ", e)
 
-        await asyncio.sleep(10)
+        if session_type == "R":
+            await asyncio.sleep(30)
+        elif session_type == "Q":
+            await asyncio.sleep(60)
+        else:
+            await asyncio.sleep(300)
