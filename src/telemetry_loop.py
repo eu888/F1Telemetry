@@ -56,6 +56,7 @@ async def telemetry_loop():
     await asyncio.sleep(5)
 
     while True:
+        session_type = None
         try:
 
             event = get_current_or_upcoming_event()
