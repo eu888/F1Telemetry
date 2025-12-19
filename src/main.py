@@ -42,7 +42,8 @@ async def on_ready():
     guild=discord.Object(id=GUILD_ID)
 )
 async def ping(interaction: discord.Interaction):
-    await interaction.response.send_message("Pong!", ephemeral=True)
+    await interaction.response.defer(ephemeral=True)
+    await interaction.followup.send("Pong!")
 
 
 @tree.command(
@@ -74,29 +75,27 @@ async def serverinfo(interaction: discord.Interaction):
 
 @tree.command(name="f1", description="F1 telemetry command.")
 @app_commands.choices(type_=[
-    app_commands.Choice(name="Driver", value="driver"),
-    app_commands.Choice(name="Leaderboard", value="leaderboard")
+    app_commands.Choice(name="Driver", value="driver")
 ])
 async def f1(interaction: discord.Interaction, type_: app_commands.Choice[str], driver: str, race: str = None):
+    await interaction.response.defer(ephemeral=True)
     type_ = type_.value.lower()
     driver = driver.upper()
 
     if not telemetry_cache["session"]:
-        return await interaction.response.send_message(
-            "Telemetry data not available yet. Please try again later.",
-            ephemeral=True
+        return await interaction.followup.send(
+            "Telemetry data not available yet. Please try again later."
         )
 
     if type_ == "driver":
         if driver not in telemetry_cache["drivers"]:
-            return await interaction.response.send_message(
-                "Driver not found",
-                ephemeral=True
+            return await interaction.followup.send(
+                "Driver not found"
             )
 
         data = telemetry_cache["drivers"][driver]
 
-        await interaction.response.send_message(
+        await interaction.followup.send(
             f"🏎️ **{driver}**\n"
             f"Laps: {data['laps']}\n"
             f"Last lap: {data['last_lap']}"

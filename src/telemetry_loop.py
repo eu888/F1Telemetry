@@ -19,13 +19,20 @@ telemetry_cache = {
     "flags": {}
 }
 
+def to_utc(ts):
+    if pd.isna(ts):
+        return None
+    if ts.tzinfo is None:
+        return ts.tz_localize("UTC")
+    return ts.tz_convert("UTC")
+
 #Gets the current or upcoming F1 event
 def get_current_or_upcoming_event(year=2025):
     schedule = ff1.get_event_schedule(year)
     now = datetime.now(timezone.utc)
 
     for _, event in schedule.iterrows():
-        race_time = event["Session5"]
+        race_time = to_utc(event["Session5"])
 
         if pd.notna(race_time) and race_time >= now:
             return event
