@@ -9,11 +9,11 @@ from telemetry_loop import telemetry_loop, telemetry_cache
 class Bot(commands.Bot):
     async def setup_hook(self):
         guild = discord.Object(id=GUILD_ID)
+        self.tree.clear_commands(guild=guild)
         self.tree.add_command(ping, guild=guild)
         self.tree.add_command(serverinfo, guild=guild)
         self.tree.add_command(F1(), guild=guild)
-        await self.tree.sync(guild=guild, clear=False)
-
+        await self.tree.sync(guild=guild)
 load_dotenv()
 
 GUILD_ID = 881250112549027880
