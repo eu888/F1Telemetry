@@ -12,7 +12,7 @@ class Bot(commands.Bot):
         self.tree.add_command(ping, guild=guild)
         self.tree.add_command(serverinfo, guild=guild)
         self.tree.add_command(F1(), guild=guild)
-        await self.tree.sync(guild=guild, clear=True)
+        await self.tree.sync(guild=guild, clear=False)
 
 load_dotenv()
 
