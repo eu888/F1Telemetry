@@ -100,14 +100,28 @@ async def telemetry_loop():
 
             # Populate leaderboard data
             if not session.laps.empty and "LapTime" in session.laps:
-                telemetry_cache["leaderboard"] = (
+                fastest = (
                     session.laps
-                    .groupby("Driver")["LapTime"]
+                     .groupby("Driver", as_index=False)["LapTime"]
                     .min()
-                    .sort_values()
-                    .index
-                    .tolist()
+                    .sort_values("LapTime")
+                    .reset_index(drop=True)
                 )
+
+                leaderboard = []
+
+                leader_time = fastest.iloc[0]["LapTime"]
+
+                for i, row in fastest.iterrows():
+                    gap = row["LapTime"] - leader_time
+                    leaderboard.append({
+                        "position": i + 1,
+                        "driver": row["Driver"],
+                        "lap_time": str(row["LapTime"]),
+                        "gap": "+0.000" if i == 0 else f"+{gap.total_seconds():.3f}s"
+                    })
+
+                telemetry_cache["leaderboard"] = leaderboard
 
             telemetry_cache["drivers"] = {}
 
