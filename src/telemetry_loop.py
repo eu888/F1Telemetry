@@ -6,6 +6,9 @@ from datetime import datetime, timezone
 cache_dir = os.path.join(os.getcwd(), "cache", "ff1_cache")  
 os.makedirs(cache_dir, exist_ok=True)
 
+os.environ["REQUESTS_CACHE_BACKEND"] = "filesystem"
+os.environ["FASTF1_CACHE"] = cache_dir
+
 current_session_key = None
 
 import fastf1 as ff1
