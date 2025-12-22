@@ -1,5 +1,4 @@
 import os
-import fastf1 as ff1
 import asyncio
 import pandas as pd
 from datetime import datetime, timezone
@@ -8,6 +7,8 @@ cache_dir = os.path.join(os.getcwd(), "cache", "ff1_cache")
 os.makedirs(cache_dir, exist_ok=True)
 
 current_session_key = None
+
+import fastf1 as ff1
 
 ff1.Cache.enable_cache(cache_dir)
 

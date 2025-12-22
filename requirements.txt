@@ -3,3 +3,4 @@ python-dotenv
 flask
 fastf1
 asyncio
+os
